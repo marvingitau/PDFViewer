@@ -1,0 +1,272 @@
+﻿@{
+    //  ViewBag.Title = "Home Page";
+}
+
+
+
+@*<iframe title="Intentionally blank" aria-hidden="true" runat="server" id="pdfiframe" frameborder="1" src=@ViewData["src"] width="800" height="600">
+    </iframe>*@
+
+
+@*<div id="pdf1"></div>*@
+
+
+
+<div>
+    <button id="prev">Previous</button>
+    <button id="next">Next</button>
+    &nbsp; &nbsp;
+    <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
+</div>
+
+<canvas id="myCanvas" width="800" height="600" style="border: 1px solid #000000; margin: 2rem 0rem;">
+</canvas>
+
+<div class="jumbotron">
+    <h1>ASP.NET</h1>
+    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Getting started</h2>
+        <p>
+            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
+            enables a clean separation of concerns and gives you full control over markup
+            for enjoyable, agile development.
+        </p>
+        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Get more libraries</h2>
+        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2> @ViewData["File"] </h2>
+        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    </div>
+</div>
+
+
+
+
+@*<script src="~/Scripts/pdfobject.min.js"></script>*@
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.6.347/build/pdf.min.js"></script>
+<script type='text/javascript'>
+    //var myPDF = new PDFObject({
+    //    url: 'http://pupool.ke/uploads/5_1638012066.pdf',
+    //    pdfOpenParams: {
+    //        view: 'Fit',
+    //        scrollbars: '0',
+    //        toolbar: '0',
+    //        statusbar: '0',
+    //        navpanes: '0'
+    //    }
+    //}).embed('pdf1');
+
+
+
+    //embeds a PDF into the element "my-container" with a few options specified
+
+    //var options = {
+    //    width: "100rem",
+    //    height: "20rem",
+    //    pdfOpenParams: {
+    //        //view: 'Fit',
+    //        //scrollbars: '0',
+    //        toolbar: '0',
+    //        statusbar: '0',
+    //        navpanes: '0'
+    //    }
+    //};
+    //PDFObject.embed('//pupool.ke/uploads/5_1638012066.pdf', "#pdf1", options);
+
+
+    //var pdf = 'http://pupool.ke/uploads/5_1638012066.pdf';
+    //PDFJS.disableWorker = true;
+    //var pages = new Array();
+    ////Prepare some things
+    //var canvas = document.getElementById('myCanvas');
+    //var context = canvas.getContext('2d');
+    //var scale = 1.5;
+    //var canvasWidth = 0;
+    //var canvasHeight = 0;
+    //var pageStarts = new Array();
+    //pageStarts[0] = 0;
+
+    //PDFJS.getDocument(url).then(function getPdfHelloWorld(_pdf) {
+    //    pdf = _pdf;
+    //    //Render all the pages on a single canvas
+    //    for (var i = 1; i <= pdf.numPages; i++) {
+    //        pdf.getPage(i).then(function getPage(page) {
+    //            var viewport = page.getViewport(scale);
+    //            // changing canvas.width and/or canvas.height auto-clears the canvas
+    //            canvas.width = viewport.width;
+    //            canvas.height = viewport.height;
+    //            page.render({ canvasContext: context, viewport: viewport });
+    //            pages[i - 1] = context.getImageData(0, 0, canvas.width, canvas.height);
+    //            // calculate the width of the final display canvas
+    //            if (canvas.width > maxCanvasWidth) {
+    //                maxCanvasWidth = canvas.width;
+    //            }
+    //            // calculate the accumulated with of the final display canvas
+    //            canvasHeight += canvas.height;
+    //            // save the "Y" starting position of this pages[i]
+    //            pageStarts[i] = pageStarts[i - 1] + canvas.height;
+    //            p.Out("pre-rendered page " + i);
+    //        });
+    //    }
+
+
+    //    canvas.width = canvasWidth;
+    //    canvas.height = canvasHeight;  // this auto-clears all canvas contents
+    //    for (var i = 0; i < pages.length; i++) {
+    //        context.putImageData(pages[i], 0, pageStarts[i]);
+    //    }
+
+    //});
+
+
+    // If absolute URL from the remote server is provided, configure the CORS
+    // header on that server.
+    //ttps://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/examples/learning/helloworld.pdf
+    //ttps://pupool.ke/uploads/5_1638012066.pdf
+
+    // ~/Uploads/test-check-alpha.pdf
+
+    ////raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/examples/learning/helloworld.pdf
+    //var url = "/Uploads/test-check-alpha.pdf";
+    var url = "/Uploads/@ViewBag.File"
+
+    // Loaded via <script> tag, create shortcut to access PDF.js exports.
+    var pdfjsLib = window['pdfjs-dist/build/pdf'];
+
+    // The workerSrc property shall be specified.
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '//cdn.jsdelivr.net/npm/pdfjs-dist@2.6.347/build/pdf.worker.js';
+
+    var pdfDoc = null,
+    pageNum = 1,
+    pageRendering = false,
+    pageNumPending = null,
+    scale = 0.8,
+        canvas = document.getElementById('myCanvas'),
+    ctx = canvas.getContext('2d');
+
+
+
+    function renderPage(num) {
+      pageRendering = true;
+      // Using promise to fetch the page
+      pdfDoc.getPage(num).then(function(page) {
+        var viewport = page.getViewport({scale: scale});
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        // Render PDF page into canvas context
+        var renderContext = {
+          canvasContext: ctx,
+          viewport: viewport
+        };
+        var renderTask = page.render(renderContext);
+
+        // Wait for rendering to finish
+        renderTask.promise.then(function() {
+          pageRendering = false;
+          if (pageNumPending !== null) {
+            // New page rendering is pending
+            renderPage(pageNumPending);
+            pageNumPending = null;
+          }
+        });
+      });
+
+      // Update page counters
+      document.getElementById('page_num').textContent = num;
+    }
+
+    /**
+     * If another page rendering in progress, waits until the rendering is
+     * finised. Otherwise, executes rendering immediately.
+     */
+    function queueRenderPage(num) {
+      if (pageRendering) {
+        pageNumPending = num;
+      } else {
+        renderPage(num);
+      }
+    }
+
+    /**
+     * Displays previous page.
+     */
+    function onPrevPage() {
+      if (pageNum <= 1) {
+        return;
+      }
+      pageNum--;
+      queueRenderPage(pageNum);
+    }
+    document.getElementById('prev').addEventListener('click', onPrevPage);
+
+    /**
+     * Displays next page.
+     */
+    function onNextPage() {
+      if (pageNum >= pdfDoc.numPages) {
+        return;
+      }
+      pageNum++;
+      queueRenderPage(pageNum);
+    }
+    document.getElementById('next').addEventListener('click', onNextPage);
+
+    /**
+     * Asynchronously downloads PDF.
+     */
+    pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
+      pdfDoc = pdfDoc_;
+      document.getElementById('page_count').textContent = pdfDoc.numPages;
+
+      // Initial/first page rendering
+      renderPage(pageNum);
+    });
+
+    //// Asynchronous download of PDF
+    //var loadingTask = pdfjsLib.getDocument(url);
+    //loadingTask.promise.then(function (pdf) {
+    //    console.log('PDF loaded');
+
+    //    // Fetch the first page
+    //    var pageNumber = -1;
+    //    pdf.getPage(pageNumber).then(function (page) {
+    //        console.log('Page loaded');
+
+    //        var scale = 1.5;
+    //        var viewport = page.getViewport({ scale: scale });
+
+    //        // Prepare canvas using PDF page dimensions
+    //        var canvas = document.getElementById('myCanvas');
+    //        var context = canvas.getContext('2d');
+    //        canvas.height = viewport.height;
+    //        canvas.width = viewport.width;
+
+    //        // Render PDF page into canvas context
+    //        var renderContext = {
+    //            canvasContext: context,
+    //            viewport: viewport
+    //        };
+    //        var renderTask = page.render(renderContext);
+    //        renderTask.promise.then(function () {
+    //            console.log('Page rendered');
+    //        });
+    //    });
+    //}, function (reason) {
+    //    // PDF loading error
+    //    console.error(reason);
+    //});
+
+
+</script>

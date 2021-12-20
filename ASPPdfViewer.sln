@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPPdfViewer", "ASPPdfViewer.csproj", "{DF52E4C8-93EE-46F9-A066-A04C9D6CAE71}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DF52E4C8-93EE-46F9-A066-A04C9D6CAE71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF52E4C8-93EE-46F9-A066-A04C9D6CAE71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF52E4C8-93EE-46F9-A066-A04C9D6CAE71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF52E4C8-93EE-46F9-A066-A04C9D6CAE71}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F0A6B5AA-0007-4B17-90E2-34724A73AA55}
+	EndGlobalSection
+EndGlobal
